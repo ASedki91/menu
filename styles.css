@@ -1,0 +1,461 @@
+/* Reset some default styles */
+
+:root {
+    --maincolor: #122430;
+    --hovercolor: #132e40;
+  }
+
+body,
+h1,
+h2,
+h3,
+p,
+img,
+div,
+button,
+input,
+textarea {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --animation-direction: 100%;
+}
+
+/* General styles */
+body {
+    font-family: 'Cairo', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    padding-top: 60px;
+    direction: ltr;
+    /* height of fixed header */
+}
+
+header {
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    direction: ltr;
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 50px;
+    margin-right: 2rem;
+}
+
+.cart-icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 40px;
+    font-size: 1.5em;
+    position: relative;
+}
+
+.cart-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.cart-count {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.75em;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: none;
+}
+
+.hero {
+    position: relative;
+    /* Ensure the pseudo-element is positioned relative to this container */
+    background: url('cover.jpg') no-repeat center center/cover;
+    height: 45vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    /* Ensure no overflow issues with pseudo-element */
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Black with 50% transparency */
+    z-index: 1;
+    /* Ensure the overlay is on top of the background image */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding-bottom: -10px;
+    /* Ensure the content is above the overlay */
+}
+
+
+.hero-content h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.addrees {
+    margin-top: 15px;
+}
+
+.cta-button {
+    background-color: var(--maincolor);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    border-radius: 50px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    
+}
+
+.cta-button.call {
+    background-color: white;
+    color: black;
+}
+
+.cta-button.call:hover {
+    color: white;
+}
+
+
+.cart-pane #close-cart,
+.cart-pane #clear-cart {
+    width: 49%;
+}
+
+.cta-button:hover {
+    background-color: var(--hovercolor);
+}
+
+.menu {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.menu h2 {
+    font-size: 2em;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.filter {
+    margin-bottom: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.filter-button {
+    background-color: #e9ecef;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+    border-radius: 50px;
+    display: inline-block;
+    font-family: 'cairo', sans-serif;
+}
+
+.filter-button.active {
+    background-color: var(--maincolor);
+    color: #fff;
+}
+
+.filter-button:hover {
+    background-color: var(--hovercolor);
+    color: #fff;
+}
+
+.product-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.product-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 300px;
+    /* height: 620px; */
+    /* position: relative; */
+}
+
+.product-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-item h3 {
+    font-size: 1.25em;
+    margin: 15px 0;
+}
+
+.product-item p {
+    padding: 0 15px 15px;
+}
+
+.product-item select,
+.product-item button {
+    width: calc(100% - 30px);
+    margin: 0 15px 10px;
+}
+
+.product-item select {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+}
+
+.product-item button {
+    background-color: var(--maincolor);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50px;
+    margin-top: 5%;
+    font-family: 'cairo', sans-serif;
+    font-weight: 600;
+    /* position: absolute; */
+    /* bottom: 0; */
+    /* right: 0; */
+}
+
+.product-item button:hover {
+    background-color: var(--hovercolor);
+}
+
+.product-item:hover {
+    transform: translateY(-10px);
+}
+
+.extras-container {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    /* Create two equal columns */
+    gap: 10px;
+    /* Space between grid items */
+    margin-top: 10px;
+    overflow-y: hidden;
+    max-height: 100px;
+    height: 100px;
+}
+
+.extras-container.extras-container-long {
+    overflow-y: auto;
+}
+
+
+.extras-container label {
+    display: flex;
+    gap: 10px;
+    /* Space between checkbox and text */
+}
+
+.extras-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--maincolor);
+    border-radius: 5px;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 5%
+}
+
+.cart-pane {
+    position: fixed;
+    left: auto;
+    right: auto;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 1000;
+    opacity: 0;
+    display: block;
+}
+
+.cart-pane.open {
+    animation: slideIn 0.3s ease-in-out forwards;
+    display: block;
+}
+
+.cart-pane.close {
+    /* ... other styles ... */
+    animation: slideOut 0.3s ease-in-out forwards;
+    display: block;
+}
+
+
+@keyframes slideIn {
+    from {
+        transform: translateX(var(--animation-direction));
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(var(--animation-direction));
+        opacity: 0;
+    }
+}
+
+
+.cart-pane h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.cart-pane .cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cart-pane form {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-pane button {
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    height: 43px;
+    font-size: 1em;
+    align-items: center;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.cart-pane input,
+.cart-pane textarea {
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    text-align: right;
+}
+
+.cart-pane button {
+    background-color: var(--maincolor);
+    color: white;
+    border: none;
+    cursor: pointer;
+     align-items: center;
+}
+
+.cart-pane button:hover {
+    background-color: var(--hovercolor);
+}
+
+.developed-by {
+    text-align: center;
+    margin-top: 20px; /* Add some spacing above the text */
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    border: none;
+    padding: 8px 16px;  /* Reduced padding for smaller size */
+    border-radius: 20px;  /* Rounded corners for badge look */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;  /* Smaller font size */
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Add a transition effect */
+}
+
+.floating-button:hover {
+    background-color: var(--maincolor);
+    color: white; /* Change text color on hover */
+}
+
+.barameg {
+    color: blue;
+}
