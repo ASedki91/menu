@@ -48,10 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
         //item.name, item.variant, item.price, item.extraPrice, item.quantity, item.selectedExtras
 
         message += seperator;
-
         let totalPrice = 0;
         cart.forEach((item) => {
             let extras = '';
+            const variant = (item.variant ? ` ${item.variant}` : ``);
 
             if (item.selectedExtras.length > 0) {
                 //you can edit the "join" to change the seperator between extras
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
 
-            message += `${directionMark}${item.quantity} x ${item.name} ${item.variant}\t${displayPrice(item.price)}${extras}\n`;
+            message += `${directionMark}${item.quantity} x ${item.name}${variant}\t${displayPrice(item.price)}${extras}\n`;
 
             const productTotal = (item.price + item.extraPrice) * item.quantity;
 
