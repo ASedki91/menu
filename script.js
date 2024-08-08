@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryFilter = document.getElementById('category-filter');
     let products = [];
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let zones = [];
+    let delivaryFee = Infinity;
 
     // Customization Options
     const currency = "dh";
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyCartError = "برجاء اضافة طلبات للسلة قبل ارسال الطلب";
     const invalidOrderError = 'طلب غير صالح';
     const invalidExtraError = 'اضافة غير صالحة';
+    const invalidDestinationError = 'منطقة توصيل غير صالحة';
 
 
     //you can edit the message via editing the text and the following variables:
@@ -66,7 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
             totalPrice += productTotal;
         });
 
-        message += `${directionMark}السعر النهائي: ${displayPrice(totalPrice)}`;
+        message += `${directionMark}سعر الطلب: ${displayPrice(totalPrice)}`;
+        message += '\n';
+        message += `${directionMark}سعر التوصيل: ${displayPrice(delivaryFee)}`;
+        message += '\n';
+        message += `${directionMark}السعر النهائي: ${displayPrice(totalPrice+delivaryFee)}`;
 
         return message;
     }
@@ -115,19 +122,23 @@ document.addEventListener('DOMContentLoaded', () => {
               <h3>${product.name}</h3>
               <p>${product.description}</p>
               <p class="product-price">${displayPrice(product.price)}</p> 
-              <select id="variant-${product.id}">
-                ${product.variants.map(variant => `<option value="${variant}">${variant}</option>`).join('')}
-              </select>
+              ${product.variants.length > 0 ? `
+                <select id="variant-${product.id}">
+                  ${product.variants.map(variant => `<option value="${variant}">${variant}</option>`).join('')}
+                </select>
+              ` : ''}
             `;
             productGrid.appendChild(productItem);
 
             // Add event listener to select element
             const variantSelect = productItem.querySelector(`#variant-${product.id}`);
-            variantSelect.addEventListener('change', () => {
-                const selectedIndex = product.variants.indexOf(variantSelect.value);
-                product.price = setWithIdx(selectedIndex, product.prices);
-                productItem.querySelector('.product-price').textContent = `${displayPrice(product.price + product.extraPrice)}`;
-            });
+            if(variantSelect) {
+                variantSelect.addEventListener('change', () => {
+                    const selectedIndex = product.variants.indexOf(variantSelect.value);
+                    product.price = setWithIdx(selectedIndex, product.prices);
+                    productItem.querySelector('.product-price').textContent = `${displayPrice(product.price + product.extraPrice)}`;
+                });
+            }
 
             // Check if there are extras and create the "extras" div if necessary
             if (product.extras.length > 0) {
@@ -198,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const variantSelect = document.getElementById(`variant-${product.id}`);
-        const variant = variantSelect.value;
+        const variant = (variantSelect ? variantSelect.value : null);
         // Wait for the product item to be rendered 
         const productItem = document.querySelector(`.product-item[data-id="${productId}"]`);
         if (productItem) { // Check if the element exists
@@ -229,12 +240,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const cartItem = document.createElement('div');
             cartItem.className = 'cart-item';
             cartItem.innerHTML = `
-                <p>${item.name} - ${item.variant} - ${extras}${displayPrice(price)} x ${item.quantity} 
+                <p>${item.name}${item.variant ? ` - ${item.variant}` : ``} - ${extras}${displayPrice(price)} x ${item.quantity} 
   (${displayPrice(price * item.quantity)})</p>
                 <button onclick="removeFromCart(${index})", class="remove-button">X</button>
             `;
             cartItemsContainer.appendChild(cartItem);
         });
+
+        updateTotalPrice();
     }
 
     window.removeFromCart = function(index) {
@@ -290,6 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(emptyCartError);
             return;
         }
+
+        if(delivaryFee === Infinity) {
+            alert(invalidDestinationError);
+            return;
+          }
+
         const name = document.getElementById('name').value;
         const address = document.getElementById('address').value;
         const notes = document.getElementById('notes').value;
@@ -359,8 +378,41 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
+
+    function loadZones() {
+        const sheetId = '1c1-REfGKjHZfWJKDFkC5intGjDoSoNQMzaAB0W9W3bw';
+        const apiKey = 'AIzaSyBLzQa0qCd2P40oFTZFyYWkVYk9hFhWetY';
+        const range = 'ship!A1:B1000';
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const rows = data.values;
+          zones = rows.slice(1).map((row) => ({
+            zone: row[0],
+            price: row[1] ? (isNaN(parseFloat(row[1])) ? Infinity : parseFloat(row[1])) : Infinity
+          }));
+          delivaryFee = zones[0].price;
+          updateTotalPrice();
+        })
+        .catch(error => console.error('Error fetching zones:', error));
+        
+      }
+
+      function updateTotalPrice() {
+        let orderPrice = 0;
+
+        cart.forEach((item) => {
+          orderPrice += (item.price + item.extraPrice)*item.quantity;
+        });
+        
+        document.getElementById('total-price').textContent = displayPrice(delivaryFee + orderPrice);
+      }
+
     // Initialize
     loadProducts();
+    loadZones();
     renderCartItems();
     updateCartCount();
 });
