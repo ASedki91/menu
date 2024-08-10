@@ -92,6 +92,22 @@ header nav {
     display: none;
 }
 
+#languageSwitcher {
+    padding: 10px 20px;
+    margin: 20px;
+    background-color: #738190;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+#languageSwitcher:hover {
+    background-color: #122430;
+}
+
 .hero {
     position: relative;
     /* Ensure the pseudo-element is positioned relative to this container */
@@ -316,7 +332,7 @@ header nav {
 .cart-pane {
     position: fixed;
     left: auto;
-    right: auto;
+    right: 0;
     top: 0;
     width: 300px;
     height: 100%;
