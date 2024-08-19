@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cart.forEach((item) => {
             const itemProduct = products[item.id-1];
             let extras = '';
-            const variant = (itemProduct.variants.length > item.variant ? ` ${itemProduct[item.variant]}` : ``);
+            const variant = (itemProduct.variants.length > item.variant ? ` ${itemProduct.variants[item.variant]}` : ``);
 
             if (item.selectedExtras.length > 0) {
                 //you can edit the "join" to change the seperator between extras
@@ -326,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cartItem = document.createElement('div');
             cartItem.className = 'cart-item';
             cartItem.innerHTML = `
-                <p>${itemProduct.name}${itemProduct.variant ? ` - ${itemProduct.variant}` : ``} - ${extras}${displayPrice(price)} x ${item.quantity} 
+                <p>${itemProduct.name}${itemProduct.variants.length > item.variant ? ` - ${itemProduct.variants[item.variant]}` : ``} - ${extras}${displayPrice(price)} x ${item.quantity} 
   (${displayPrice(price * item.quantity)})</p>
                 <button onclick="removeFromCart(${index})", class="remove-button">X</button>
             `;
