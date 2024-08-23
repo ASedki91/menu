@@ -391,7 +391,7 @@ header nav {
 .cart-pane h2 {
     font-size: 1.5em;
     margin-bottom: 20px;
-    text-align: right;
+    text-align: auto;
 }
 
 .cart-pane .cart-item {
