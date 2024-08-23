@@ -1,14 +1,12 @@
 
     // Example function to switch to English (used in index.html)
     function switchToEnglish() {
-        window.location.href = "/en/index_en.html";
-        language = 1;
+        window.location.href = "/en/index.html";
     }
 
     // Example function to switch to Default Language (used in index_en.html)
     function switchToDefault() {
         window.location.href = "/index.html";
-        language = 0;
     }
     const language = window.location.pathname.includes('/en') ? 1 : 0;
 
@@ -421,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         products[index].name = row[0];
                         products[index].category = row[1];
                         products[index].extras = row[2] ? row[2].split(',') : [];
-                        products[index].variants = row[5] ? row[5].split(',') : [];
+                        products[index].variants = row[3] ? row[3].split(',') : [];
                     }
                     
                 });
@@ -433,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateTotalPrice();
                 stuffLoaded++;
             })
-            .catch(error => console.error('Error fetching products:', error));
+            .catch(error => console.error('Error fetching language:', error));
     }
 
     // Load products from Google Sheets
